@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Circle+</title>
+    <style type="text/css" media="screen">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #main {
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        
+    </div>
+    
+    <script type="text/javascript" src="raphael-min.js"></script> <!-- Raphael 1.5.2 -->
+    <script type="text/javascript">
+        var paper = Raphael('main', 600, 400);
+        
+        var border_circle = paper.circle(150, 130, 80);
+        border_circle.attr({
+            fill: '#E4E4E4',
+            stroke: '#CECECE',
+            'stroke-width': 1
+        });
+        var base_circle = paper.circle(150, 130, 60);
+        base_circle.attr({
+            'fill': '#4C97D0',
+            stroke: 'none'
+        });
+        
+        var circle = paper.set();
+        circle.push(
+            base_circle,
+            border_circle
+        );
+        /*circle.mouseover(function (event) {
+            border_circle.scale(1.5, 1.5);
+            border_circle.attr({
+                stroke: '#4C97D0',
+                'stroke-width': 5
+            });
+            
+        }).mouseout(function(event) {
+            border_circle.scale(1, 1);
+            border_circle.attr({
+                stroke: '#CECECE',
+                'stroke-width': 1
+            });
+        });*/
+        
+        var over_x = border_circle.attr('cx')-(border_circle.getBBox().width/2);
+        var over_y = border_circle.attr('cy')-(border_circle.getBBox().width/2);
+        var over_width = border_circle.getBBox().width;
+        var over_height = border_circle.getBBox().height;
+        /*var border = paper.rect(over_x, over_y, over_width, over_height);
+        border.attr({
+            stroke: 'red',
+            'stroke-width': 1
+        });*/
+        
+        var friend_circle = paper.circle(30, 30, 20).attr({
+            fill: 'red',
+            stroke: 'none',
+            opacity: .5
+        });
+        var onstart = function () {
+            this.ox = this.attr("cx");
+            this.oy = this.attr("cy");
+            this.attr({ opacity: 1 });
+            
+        }, onmove = function (dx, dy) {
+            this.attr({cx: this.ox + dx, cy: this.oy + dy});
+            //console.log(this.attr('cx')+', '+this.attr('cy'));
+            if (
+                (this.attr('cx') >= (over_x+5) && this.attr('cx') <= (over_x+over_width+5)) &&
+                (this.attr('cy') >= (over_y+5) && this.attr('cy') <= (over_y+over_height+5))) {
+                border_circle.scale(1.5, 1.5);
+                border_circle.attr({
+                    stroke: '#4C97D0',
+                    'stroke-width': 5
+                });
+            } else {
+                border_circle.scale(1, 1);
+                border_circle.attr({
+                    stroke: '#CECECE',
+                    'stroke-width': 1
+                });
+            }
+            
+        }, onend = function () {
+            this.attr({ opacity: .5 });
+        };
+        
+        friend_circle.drag(onmove, onstart, onend);
+    </script>
+</body>
+</html>
