@@ -80,8 +80,8 @@
             this.attr({cx: this.ox + dx, cy: this.oy + dy});
             //console.log(this.attr('cx')+', '+this.attr('cy'));
             if (
-                (this.attr('cx') >= (over_x+5) && this.attr('cx') <= (over_x+over_width+5)) &&
-                (this.attr('cy') >= (over_y+5) && this.attr('cy') <= (over_y+over_height+5))) {
+                (this.attr('cx') >= (over_x-10) && this.attr('cx') <= (over_x+over_width+10)) &&
+                (this.attr('cy') >= (over_y-10) && this.attr('cy') <= (over_y+over_height+10))) {
                 border_circle.scale(1.5, 1.5);
                 border_circle.attr({
                     stroke: '#4C97D0',
